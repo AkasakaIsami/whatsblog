@@ -1,0 +1,17 @@
+<nz-list [nzDataSource]="articles" [nzItemLayout]="'vertical'" [nzRenderItem]="article" [nzPagination]="pagination">
+  <ng-template #article let-article>
+    <nz-list-item [nzContent]="text">
+      <nz-list-item-meta [nzTitle]="title" [nzDescription]="description">
+        <ng-template #title>
+          <a href="/article/{{ article.id }}" class="article-title">{{ article.title }}</a>
+        </ng-template>
+        <ng-template #description>
+          <a href="/article/{{ article.id }}" class="article-description">{{ article.text }}</a>
+        </ng-template>
+      </nz-list-item-meta>
+    </nz-list-item>
+  </ng-template>
+  <ng-template #pagination>
+    <nz-pagination [nzPageIndex]="1" [nzTotal]="50" (nzPageIndexChange)="loadData($event)"></nz-pagination>
+  </ng-template>
+</nz-list>

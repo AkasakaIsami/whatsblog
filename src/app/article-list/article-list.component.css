@@ -1,0 +1,16 @@
+nz-list {
+    width: 100%;
+}
+
+nz-list-item {
+    width: 100%;
+}
+
+.article-title {
+    color: black; 
+    font-weight: bold;
+}
+
+.article-description {
+    color:#6b6b6b
+}
