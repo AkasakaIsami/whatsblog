@@ -77,3 +77,7 @@ svg#clouds {
   z-index: -10;
   width: 1920px;
 }
+
+:host ::ng-deep router-outlet + * {
+  width:80%;
+}
