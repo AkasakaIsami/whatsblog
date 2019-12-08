@@ -1,5 +1,14 @@
-<a href="/">返回</a>
-<h2>{{ article.title }}</h2>
-<article> 
-    {{ article.text }} 
-</article>
+<button nz-button (click)="goBack()"><i nz-icon nzType="left"></i>返回</button>
+<button nz-button (click)="makeEditable()"><i nz-icon nzType="edit"></i>编辑</button>
+<button *ngIf="editable" nz-button (click)="save()"><i nz-icon nzType="save"></i>保存</button>
+<div *ngIf="article">
+    <div style="display: none" id="tmpMd" appEditorMd [editormdConfig]="conf" (onEditorChange)="loadHtml($event)">
+        <textarea style="display: block;" [(ngModel)]="article.text"></textarea>
+    </div>
+    <div [innerHTML]="textHtml" *ngIf="!editable">
+        <app-article-editor [article]="article"></app-article-editor>
+    </div>
+    <div *ngIf="editable">
+        <app-article-editor [article]="article"></app-article-editor>
+    </div>
+</div>

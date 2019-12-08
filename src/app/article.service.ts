@@ -13,11 +13,16 @@ export class ArticleService {
 
   constructor(private http: HttpClient) { }
 
-  getAllArticles(): Observable<Response<Article[]>> {
-    return this.http.get<Response<Article[]>>(this.base_url);
+  getAllArticles(classname: string=null): Observable<Response<Article[]>> {
+    const reqUrl = classname ? this.base_url +'?classname=' + classname : this.base_url;
+    return this.http.get<Response<Article[]>>(reqUrl);
   }
 
   getArticleById(article_id: string): Observable<Response<Article>> {
     return this.http.get<Response<Article>>(this.base_url + article_id);
+  }
+
+  postArticle(article: Article): Observable<Response<Object>> {
+    return this.http.post<Response<Object>>(this.base_url, article);
   }
 }

@@ -1,0 +1,64 @@
+<form (ngSubmit)="submitForm()" [formGroup]="validateForm" class="login-form" nz-form>
+  <h2 class="login-head">注册</h2>
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group [nzPrefix]="prefixUser">
+        <input formControlName="username" nz-input placeholder="用户名" type="text"/>
+      </nz-input-group>
+      <nz-form-explain
+        *ngIf="validateForm.get('username')?.dirty"
+      >
+        <ng-container *ngIf="validateForm.get('username')?.hasError('required')">
+          请输入用户名
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('username')?.hasError('short')">
+          用户名长度至少为4
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('username')?.hasError('long')">
+          用户名长度不能超过20
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('username')?.hasError('invalid')">
+          用户名仅由字母数字组成，且以字母开头
+        </ng-container>
+      </nz-form-explain
+      >
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group [nzPrefix]="prefixLock">
+        <input formControlName="password" nz-input placeholder="密码" type="password"/>
+      </nz-input-group>
+      <nz-form-explain
+        *ngIf="validateForm.get('password')?.dirty"
+      >
+        <ng-container *ngIf="validateForm.get('password')?.hasError('required')">
+          请输入密码
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('password')?.hasError('short')">
+          密码长度至少为5
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('password')?.hasError('long')">
+          密码长度不能超过20
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('password')?.hasError('onlyNumber')">
+          密码不能仅包含数字
+        </ng-container>
+      </nz-form-explain
+      >
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <nz-alert *ngIf="errorMsg" [nzMessage]="errorMsg" nzShowIcon nzType="error"></nz-alert>
+      <button [disabled]="!validateForm.valid || registering" [nzType]="'primary'" class="login-form-button" nz-button>
+        <i *ngIf="registering" [spin]="true" nz-icon nzType="reload"></i>注册
+      </button>
+      已经注册？
+      <a routerLink="/login">点此登录</a>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+<ng-template #prefixUser><i nz-icon nzType="user"></i></ng-template>
+<ng-template #prefixLock><i nz-icon nzType="lock"></i></ng-template>
+<ng-template #prefixEmail><i nz-icon nzType="mail"></i></ng-template>

@@ -5,12 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ArticleListComponent } from './article-list/article-list.component';
 import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { ArticleComponent } from './article/article.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ArticleEditorComponent } from './article-editor/article-editor.component';
+import {EditorMdDirective} from './editor/editor-md.directive';
 
 registerLocaleData(zh);
 
@@ -18,7 +22,11 @@ registerLocaleData(zh);
   declarations: [
     AppComponent,
     ArticleListComponent,
-    ArticleComponent
+    ArticleComponent,
+    LoginComponent,
+    RegisterComponent,
+    ArticleEditorComponent,
+    EditorMdDirective
   ],
   imports: [
     BrowserModule,
@@ -26,7 +34,8 @@ registerLocaleData(zh);
     NgZorroAntdModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]

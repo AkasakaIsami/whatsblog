@@ -1,0 +1,4 @@
+<h2><input nz-input [(ngModel)]="article.title"></h2>
+<div id="md" appEditorMd [editormdConfig]="conf" (onEditorChange)="syncModel($event)">
+    <textarea style="display: block;" [(ngModel)]="article.text"></textarea>
+</div>

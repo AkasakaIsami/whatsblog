@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Article } from '../model/article';
-import { ArticleService } from '../article-service';
+import { ArticleService } from '../article.service';
 import { Response } from '../model/response'
 
 @Component({
