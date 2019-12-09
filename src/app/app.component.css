@@ -46,7 +46,6 @@ p {
   display: flex;
   margin: 32px auto;
   padding: 0 16px;
-  max-width: 1200px;
   flex-direction: column;
   align-items: center;
 }
@@ -80,4 +79,8 @@ svg#clouds {
 
 :host ::ng-deep router-outlet + * {
   width:80%;
+}
+
+[nz-menu] {
+  width: 240px;
 }

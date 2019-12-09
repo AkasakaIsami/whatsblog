@@ -1,10 +1,13 @@
 <nz-affix nzOffsetTop="10">
     <button nz-button (click)="goBack()"><i nz-icon nzType="left"></i>返回</button>
-    <button *ngIf="!editable" nz-button (click)="makeEditable()"><i nz-icon nzType="edit"></i>编辑</button>
-    <button *ngIf="editable" nz-button (click)="save()"><i nz-icon nzType="save"></i>保存</button>
-    <button nz-button (click)="likeArticle()"><i nz-icon nzType="like"></i>点赞</button>
+    <button nz-button (click)="likeArticle()" nzType="primary"><i nz-icon nzType="like"></i>点赞</button>
+
+    <button *ngIf="isAdmin && !editable" nz-button (click)="makeEditable()" nzType="primary"><i nz-icon nzType="edit"></i>编辑</button>
+    <button *ngIf="isAdmin && editable" nz-button (click)="save()" nzType="primary"><i nz-icon nzType="save"></i>保存</button>
+    <button *ngIf="isAdmin" nz-button (click)="delete()" nzType="danger"><i nz-icon nzType="delete"></i>删除</button>
 </nz-affix>
 <div *ngIf="article">
+    <h2 *ngIf="!editable">{{ article.title }}</h2>
     <div *ngIf="!editable" id="preview" [innerHTML]="textHtml"></div>
     <div *ngIf="editable">
         <app-article-editor [article]="article"></app-article-editor>

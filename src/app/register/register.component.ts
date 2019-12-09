@@ -37,8 +37,8 @@ export class RegisterComponent {
     this.authService.register(username, password).subscribe(
       (regiserRes) => {
         this.registering = false;
-        localStorage.setItem('username', username)
-        localStorage.setItem('token', regiserRes.data.token)
+        this.authService.saveUsername(username);
+        this.authService.saveToken(regiserRes.data, 12);
         this.location.back();
       },
       (errorMsg) => {

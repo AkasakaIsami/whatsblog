@@ -41,9 +41,9 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (tokenRes) => {
           console.log(tokenRes);
-          localStorage.setItem('username', username);
-          localStorage.setItem('token', tokenRes.data.token);
-          this.location.back()
+          this.authService.saveUsername(username);
+          this.authService.saveToken(tokenRes.data, 12);
+          this.location.back();
         },
         (errorMsg) => {
           this.errorMsg = errorMsg;

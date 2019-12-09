@@ -14,6 +14,8 @@ import { ArticleComponent } from './article/article.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
+import { MeComponent } from './me/me.component';
+import { PostArticleComponent } from './post-article/post-article.component';
 
 registerLocaleData(zh);
 
@@ -24,7 +26,9 @@ registerLocaleData(zh);
     ArticleComponent,
     LoginComponent,
     RegisterComponent,
-    ArticleEditorComponent
+    ArticleEditorComponent,
+    MeComponent,
+    PostArticleComponent
   ],
   imports: [
     BrowserModule,

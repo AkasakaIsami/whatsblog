@@ -7,6 +7,7 @@ import { Response } from '../model/response';
 import { Location } from '@angular/common';
 import * as marked from 'marked';
 import * as hljs from 'highlight.js'
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-article',
@@ -20,12 +21,17 @@ export class ArticleComponent implements OnInit {
   editable = false;
   textHtml = 'Loading...';
   submitting = false;
+  isAdmin: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private location: Location,
-    private articleService: ArticleService
-  ) { }
+    private articleService: ArticleService,
+    private authService: AuthService
+  ) {
+    const token = this.authService.getToken();
+    this.isAdmin = token && token.group_id == '0'; 
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -88,6 +94,12 @@ export class ArticleComponent implements OnInit {
         this.textHtml = marked(this.article.text);
         this.editable = false;
       }
+    )
+  }
+
+  delete(): void {
+    this.articleService.deleteArticle(this.article.id).subscribe(
+      res => this.location.back()
     )
   }
 

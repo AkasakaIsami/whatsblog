@@ -1,17 +1,42 @@
-<nz-list [nzDataSource]="articles" [nzItemLayout]="'horizontal'" [nzRenderItem]="article" [nzPagination]="pagination">
-  <ng-template #article let-article>
-    <div>
-      <h3><a routerLink="/article/{{ article.id }}" class="article-title">{{ article.title }}</a></h3>
-      <div class="tag-list"><nz-tag *ngFor="let label of article.labels">{{ label }}</nz-tag></div>
-      <p><a routerLink="/article/{{ article.id }}" class="article-description">{{ article.text.substring(0, 120) }} ...</a></p>
-      <div>
-          <i nz-icon nzType="eye" style="margin-right: 8px;"></i> {{ article.view_number }} <nz-divider nzType="vertical"></nz-divider>
-          <i nz-icon nzType="like" style="margin-right: 8px;"></i> {{ article.like_number }} <nz-divider nzType="vertical"></nz-divider>
-          <i nz-icon nzType="message" style="margin-right: 8px;"></i> {{ article.comment_number }}
-      </div>
-    </div>
-  </ng-template>
-  <ng-template #pagination>
-    <nz-pagination [nzPageIndex]="1" [nzPageSize]="5" [nzTotal]="1000" (nzPageIndexChange)="loadData($event)"></nz-pagination>
-  </ng-template>
-</nz-list>
+<nz-layout>
+  <nz-sider nzWidth="200px" nzTheme="light">
+    <ul nz-menu nzMode="inline" class="sider-menu">
+      <li nz-menu-item [nzSelected]="!currentClassname">
+        <a href="/articles"> 所有 </a>
+      </li>
+      <li *ngFor="let classname of classnames" nz-menu-item [nzSelected]="currentClassname === classname">
+        <a [href]="'/articles?classname=' + classname"> {{ classname }} </a>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout class="inner-layout">
+    <nz-content>
+      <nz-list [nzDataSource]="articles" [nzItemLayout]="'horizontal'"
+        [nzRenderItem]="article" [nzPagination]="pagination">
+        <ng-template #article let-article>
+          <div>
+            <h3><a routerLink="/article/{{ article.id }}" class="article-title">{{
+                article.title }}</a></h3>
+            <div class="tag-list"><nz-tag *ngFor="let label of article.labels">{{
+                label }}</nz-tag></div>
+            <p><a routerLink="/article/{{ article.id }}"
+                class="article-description">{{ article.text.substring(0, 120) }}
+                ...</a></p>
+            <div>
+              <i nz-icon nzType="eye" style="margin-right: 8px;"></i> {{
+              article.view_number }} <nz-divider nzType="vertical"></nz-divider>
+              <i nz-icon nzType="like" style="margin-right: 8px;"></i> {{
+              article.like_number }} <nz-divider nzType="vertical"></nz-divider>
+              <i nz-icon nzType="message" style="margin-right: 8px;"></i> {{
+              article.comment_number }}
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #pagination>
+          <nz-pagination [nzPageIndex]="1" [nzPageSize]="pageSize" [nzTotal]="articleTotal"
+            (nzPageIndexChange)="loadData($event)"></nz-pagination>
+        </ng-template>
+      </nz-list>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

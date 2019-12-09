@@ -1,10 +1,10 @@
 export class Article {
     id: string;
-    title: string;
-    text: string;
-    view_number: number;
-    like_number: number;
-    comment_number: number;
+    title: string = '';
+    text: string = '';
+    view_number: number = 0;
+    like_number: number = 0;
+    comment_number: number = 0;
     classname: string;
-    labels: string[];
+    labels: string[] = [];
 }

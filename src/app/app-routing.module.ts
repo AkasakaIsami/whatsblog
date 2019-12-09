@@ -4,6 +4,8 @@ import { ArticleComponent } from './article/article.component';
 import { ArticleListComponent } from './article-list/article-list.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { MeComponent } from './me/me.component';
+import { PostArticleComponent } from './post-article/post-article.component';
 
 
 const routes: Routes = [
@@ -11,6 +13,8 @@ const routes: Routes = [
   {path: 'articles', component: ArticleListComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'post', component: PostArticleComponent},
+  {path: 'me', component: MeComponent},
   {path: '', redirectTo: '/articles', pathMatch: 'full'}
 ];
 

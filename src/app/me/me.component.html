@@ -1,0 +1,8 @@
+<button nz-button (click)="location.back()"><i nz-icon nzType="left"></i>返回</button>
+<nz-descriptions nzTitle="个人信息" nzBordered>
+    <nz-descriptions-item nzTitle="用户名">{{ username }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="用户ID">{{ user_id }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Group ID">{{ group_id }} ( {{ group_id == '0' ? '管理员' : '游客' }})</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="令牌">{{ token }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="令牌过期时间">{{ tokenExpireDate.toLocaleString() }}</nz-descriptions-item>
+</nz-descriptions>
