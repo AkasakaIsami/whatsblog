@@ -14,7 +14,6 @@ import { ArticleComponent } from './article/article.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
-import {EditorMdDirective} from './editor/editor-md.directive';
 
 registerLocaleData(zh);
 
@@ -25,8 +24,7 @@ registerLocaleData(zh);
     ArticleComponent,
     LoginComponent,
     RegisterComponent,
-    ArticleEditorComponent,
-    EditorMdDirective
+    ArticleEditorComponent
   ],
   imports: [
     BrowserModule,

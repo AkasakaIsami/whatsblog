@@ -1,6 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Article } from '../model/article';
-import { EditorConfig } from '../editor/model/editor-config';
 
 @Component({
   selector: 'app-article-editor',
@@ -9,14 +8,31 @@ import { EditorConfig } from '../editor/model/editor-config';
 })
 export class ArticleEditorComponent implements OnInit {
   @Input() article: Article;
-  
-  conf = new EditorConfig();
+  @ViewChild('inputElement', { static: false }) inputElement: ElementRef;
+  inputVisible = false;
+  inputValue = '';
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
-  syncModel(markdown): void {
-    this.article.text = markdown;
+  handleLabelClose(removedTag: {}): void {
+    this.article.labels = this.article.labels.filter(tag => tag !== removedTag);
+  }
+
+  showInput(): void {
+    this.inputVisible = true;
+    setTimeout(() => {
+      this.inputElement.nativeElement.focus();
+    }, 10);
+  }
+
+  handleInputConfirm(): void {
+    if (this.inputValue && this.article.labels.indexOf(this.inputValue) === -1) {
+      this.article.labels = [...this.article.labels, this.inputValue];
+    }
+    this.inputValue = '';
+    this.inputVisible = false;
   }
 }

@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Article } from './model/article';
 import { Response } from './model/response';
-import { config } from './config'
+import { Comment } from './model/comment';
+import { config } from './config';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,21 @@ export class ArticleService {
 
   postArticle(article: Article): Observable<Response<Object>> {
     return this.http.post<Response<Object>>(this.base_url, article);
+  }
+
+  likeArticle(article_id: string): Observable<Response<any>> {
+    return this.http.post<Response<Article>>(this.base_url + article_id + '/like', {});
+  }
+
+  viewArticle(article_id: string): Observable<Response<any>> {
+    return this.http.post<Response<Article>>(this.base_url + article_id + '/view', {});
+  }
+
+  getCommentsByArticleId(article_id: string): Observable<Response<Comment[]>> {
+    return this.http.get<Response<Comment[]>>(this.base_url + article_id + '/comment');
+  }
+
+  postComment(article_id: string, text: string): Observable<Response<any>> {
+    return this.http.post<Response<any>>(this.base_url + article_id + '/comment', { 'text': text });
   }
 }

@@ -1,10 +1,12 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Article } from '../model/article';
+import { Comment } from '../model/comment';
 import { ArticleService } from '../article.service';
 import { Response } from '../model/response';
 import { Location } from '@angular/common';
-import { EditorConfig } from '../editor/model/editor-config';
+import * as marked from 'marked';
+import * as hljs from 'highlight.js'
 
 @Component({
   selector: 'app-article',
@@ -13,36 +15,62 @@ import { EditorConfig } from '../editor/model/editor-config';
 })
 export class ArticleComponent implements OnInit {
   article: Article;
+  comments: Comment[];
+  myComment = ''
   editable = false;
-  conf = new EditorConfig();
   textHtml = 'Loading...';
+  submitting = false;
 
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     private articleService: ArticleService
-  ) {
-    this.conf.saveHTMLToTextarea = false;
-  }
+  ) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+
+    marked.setOptions({
+      highlight: function (code) {
+        return hljs.highlightAuto(code).value;
+      },
+      gfm: true,
+      headerPrefix: 'marked-',
+      headerIds: true,
+    });
+
     this.getArticle(id);
+    this.getComments(id);
+    this.viewArticle(id);
   }
 
   getArticle(id: string): void {
     this.articleService.getArticleById(id).subscribe(
       (res: Response<Article>) => {
         this.article = res.data;
-        console.log(this.article);
+        this.textHtml = marked(this.article.text);
       }
     )
   }
 
-  loadHtml(markdown): void {
-    // TODO: 这里有bug！刷新后异常。解决方式：指令手动添加textArea，确保里面有一个textArea！
-    this.textHtml = document.getElementsByClassName('editormd-preview').item(0).innerHTML;
-    console.log(this.textHtml);
+  likeArticle(): void {
+    if (this.article) {
+      this.articleService.likeArticle(this.article.id).subscribe(
+        res => console.log('success like, current: ' + res.data.like_number)
+      )
+    }
+  }
+
+  viewArticle(id: string): void {
+    this.articleService.viewArticle(id).subscribe(
+      res => console.log('success view, current: ' + res.data.view_number)
+    )
+  }
+
+  getComments(id: string):void {
+    this.articleService.getCommentsByArticleId(id).subscribe(
+      res => this.comments = res.data
+    )
   }
 
   goBack(): void {
@@ -56,7 +84,32 @@ export class ArticleComponent implements OnInit {
 
   save(): void {
     this.articleService.postArticle(this.article).subscribe(
-      res => this.editable = false
+      res => {
+        this.textHtml = marked(this.article.text);
+        this.editable = false;
+      }
+    )
+  }
+
+  UTCSecond2Date(time: number): Date {
+    const date = new Date();
+    date.setTime(time * 1000);
+    return date;
+  }
+
+  handleSubmitComment(): void {
+    this.submitting = true;
+    const content = this.myComment;
+    this.myComment = '';
+    this.articleService.postComment(this.article.id, content).subscribe(
+      res => {
+        this.articleService.getCommentsByArticleId(this.article.id).subscribe(
+          res => {
+            this.comments = res.data;
+            this.submitting = false;
+          }
+        )
+      } 
     )
   }
 }

@@ -1,14 +1,43 @@
-<button nz-button (click)="goBack()"><i nz-icon nzType="left"></i>返回</button>
-<button nz-button (click)="makeEditable()"><i nz-icon nzType="edit"></i>编辑</button>
-<button *ngIf="editable" nz-button (click)="save()"><i nz-icon nzType="save"></i>保存</button>
+<nz-affix nzOffsetTop="10">
+    <button nz-button (click)="goBack()"><i nz-icon nzType="left"></i>返回</button>
+    <button *ngIf="!editable" nz-button (click)="makeEditable()"><i nz-icon nzType="edit"></i>编辑</button>
+    <button *ngIf="editable" nz-button (click)="save()"><i nz-icon nzType="save"></i>保存</button>
+    <button nz-button (click)="likeArticle()"><i nz-icon nzType="like"></i>点赞</button>
+</nz-affix>
 <div *ngIf="article">
-    <div style="display: none" id="tmpMd" appEditorMd [editormdConfig]="conf" (onEditorChange)="loadHtml($event)">
-        <textarea style="display: block;" [(ngModel)]="article.text"></textarea>
-    </div>
-    <div [innerHTML]="textHtml" *ngIf="!editable">
-        <app-article-editor [article]="article"></app-article-editor>
-    </div>
+    <div *ngIf="!editable" id="preview" [innerHTML]="textHtml"></div>
     <div *ngIf="editable">
         <app-article-editor [article]="article"></app-article-editor>
     </div>
+</div>
+<div class="comment">
+    <h2>评论</h2>
+    <nz-list [nzDataSource]="comments" [nzRenderItem]="item"
+        [nzItemLayout]="'horizontal'">
+        <ng-template #item let-item>
+            <nz-comment [nzAuthor]="item.username"
+                [nzDatetime]="UTCSecond2Date(item.time)">
+                <nz-avatar nz-comment-avatar nzIcon="user"
+                    [nzSrc]="'https://zos.textalipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'"></nz-avatar>
+                <nz-comment-content>
+                    <p>{{ item.text }}</p>
+                </nz-comment-content>
+            </nz-comment>
+        </ng-template>
+    </nz-list>
+    <nz-comment>
+        <nz-avatar nz-comment-avatar nzIcon="user"
+            [nzSrc]="'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'"></nz-avatar>
+        <nz-comment-content>
+            <nz-form-item>
+                <textarea [(ngModel)]="myComment" nz-input rows="4"></textarea>
+            </nz-form-item>
+            <nz-form-item>
+                <button nz-button nzType="primary" [nzLoading]="submitting"
+                    [disabled]="!myComment" (click)="handleSubmitComment()">
+                    添加评论
+                </button>
+            </nz-form-item>
+        </nz-comment-content>
+    </nz-comment>
 </div>

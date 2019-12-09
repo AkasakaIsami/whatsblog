@@ -1,4 +1,17 @@
-<h2><input nz-input [(ngModel)]="article.title"></h2>
-<div id="md" appEditorMd [editormdConfig]="conf" (onEditorChange)="syncModel($event)">
-    <textarea style="display: block;" [(ngModel)]="article.text"></textarea>
+<input nz-input [(ngModel)]="article.title">
+<div class="tag-line" style="margin: 10px 0px;">
+    <nz-tag
+        *ngFor="let label of article.labels; let i= index"
+        nzMode="closeable"
+        (nzAfterClose)="handleLabelClose(label)">
+        {{ label }}
+    </nz-tag>
+    <nz-tag *ngIf="!inputVisible" class="editable-tag" nzNoAnimation
+        (click)="showInput()">
+        <i nz-icon nzType="plus"></i> 添加新标签
+    </nz-tag>
 </div>
+<input *ngIf="inputVisible" #inputElement nz-input nzSize="small" type="text"
+    [(ngModel)]="inputValue" style="width: 78px;"
+    (blur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()" />
+<textarea nz-input [(ngModel)]="article.text" nzAutosize></textarea>
