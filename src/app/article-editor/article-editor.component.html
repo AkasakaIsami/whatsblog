@@ -1,4 +1,5 @@
-<input nz-input [(ngModel)]="article.title">
+<input nz-input [(ngModel)]="article.title" placeholder="标题">
+<input nz-input [(ngModel)]="article.classname" placeholder="分类">
 <div class="tag-line" style="margin: 10px 0px;">
     <nz-tag
         *ngFor="let label of article.labels; let i= index"

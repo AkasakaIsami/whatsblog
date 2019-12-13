@@ -17,6 +17,7 @@
           <div>
             <h3><a routerLink="/article/{{ article.id }}" class="article-title">{{
                 article.title }}</a></h3>
+            <p>分类：{{article.classname ? article.classname : '默认'}}</p>
             <div class="tag-list"><nz-tag *ngFor="let label of article.labels">{{
                 label }}</nz-tag></div>
             <p><a routerLink="/article/{{ article.id }}"
