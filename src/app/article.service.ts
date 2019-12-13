@@ -50,6 +50,14 @@ export class ArticleService {
     return this.http.post<Response<Article>>(this.base_url + article_id + '/view', {});
   }
 
+  searchArticle(keywords: string): Observable<Response<Article[]>> {
+    return this.http.get<Response<Article[]>>(this.base_url + 'search', {
+      params: {
+        'keyword': keywords
+      }
+    })
+  }
+
   getCommentsByArticleId(article_id: string): Observable<Response<Comment[]>> {
     return this.http.get<Response<Comment[]>>(this.base_url + article_id + '/comment');
   }

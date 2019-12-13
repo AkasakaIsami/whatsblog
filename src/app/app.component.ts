@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,15 +12,15 @@ export class AppComponent implements OnInit {
   username: string;
   searchKeywords = ''
 
-  constructor(private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.username = this.authService.getUsername();
   }
 
-  gotoSearch():void {
+  gotoSearch(): void {
       console.log('Search Keywords: ' + this.searchKeywords);
-      this.searchKeywords = ''
+      this.router.navigateByUrl('/search/' + encodeURIComponent(this.searchKeywords));
   }
   
 }

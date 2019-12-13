@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { MeComponent } from './me/me.component';
 import { PostArticleComponent } from './post-article/post-article.component';
+import { SearchComponent } from './search/search.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'post', component: PostArticleComponent},
   {path: 'me', component: MeComponent},
+  {path: 'search/:keywords', component: SearchComponent},
   {path: '', redirectTo: '/articles', pathMatch: 'full'}
 ];
 
