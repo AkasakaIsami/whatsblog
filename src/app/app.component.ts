@@ -9,11 +9,17 @@ import { AuthService } from './auth.service';
 export class AppComponent implements OnInit {
   title = 'whatsblog';
   username: string;
+  searchKeywords = ''
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.username = this.authService.getUsername();
+  }
+
+  gotoSearch():void {
+      console.log('Search Keywords: ' + this.searchKeywords);
+      this.searchKeywords = ''
   }
   
 }
