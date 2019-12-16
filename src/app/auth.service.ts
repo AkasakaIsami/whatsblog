@@ -44,6 +44,12 @@ export class AuthService {
     });
   }
 
+  logout(): void {
+    localStorage.removeItem('username');
+    localStorage.removeItem('token');
+    localStorage.removeItem('token_expire_time');
+  }
+
   register(username: string, password: string): Observable<Response<Token>> {
     password = Md5.hashStr(password).toString(); // hash the password
     return this.http.post<Response<Token>>(this.registerApiUrl, {

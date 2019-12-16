@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Location } from '@angular/common';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-me',
@@ -23,7 +25,8 @@ export class MeComponent implements OnInit {
   changeNameFormGroup: FormGroup;
   changingUsername = false;
 
-  constructor(private authService: AuthService, private location: Location, private fb: FormBuilder) {
+  constructor(private authService: AuthService, private location: Location, private router: Router,
+              private fb: FormBuilder) {
     const token = this.authService.getToken();
     const expireTime = parseInt(localStorage.getItem('token_expire_time'), 10);
     const expireDate = new Date();
@@ -138,4 +141,9 @@ export class MeComponent implements OnInit {
     }
     return {};
   };
+
+  logout() {
+    this.authService.logout();
+    this.router.navigateByUrl('');
+  }
 }
