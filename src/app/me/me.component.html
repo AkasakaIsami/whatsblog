@@ -13,7 +13,7 @@
     </nz-descriptions>
   </nz-tab>
 
-  <!-- Tab for change password -->
+  <!-- Tab for changing password -->
   <nz-tab>
     <a nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'pass' }" queryParamsHandling="merge">修改密码</a>
     <form (ngSubmit)="submitChangePassForm()" [formGroup]="changePassFormGroup" class="login-form" nz-form>
@@ -90,7 +90,7 @@
     </form>
   </nz-tab>
 
-  <!-- Tab for change username -->
+  <!-- Tab for changing username -->
   <nz-tab>
     <a nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'name' }" queryParamsHandling="merge">修改用户名</a>
 
