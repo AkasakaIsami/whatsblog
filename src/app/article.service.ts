@@ -11,65 +11,65 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class ArticleService {
-  private base_url = config.host + 'api/article/';
+  private baseUrl = config.host + 'api/article/';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   makeHeader(): any {
     const token = this.authService.getToken();
-    return token ? {'Authorization': token.token } : {} 
+    return token ? {Authorization: token.token } : {};
   }
 
-  getAllArticles(classname: string=null): Observable<Response<Article[]>> {
-    const reqUrl = classname ? this.base_url +'?classname=' + classname : this.base_url;
+  getAllArticles(classname: string = null): Observable<Response<Article[]>> {
+    const reqUrl = classname ? this.baseUrl + '?classname=' + classname : this.baseUrl;
     return this.http.get<Response<Article[]>>(reqUrl);
   }
 
-  getArticleTotal(classname: string=null): Observable<Response<any>> {
-    const reqUrl = classname ? this.base_url +'total?classname=' + classname : this.base_url + 'total';
+  getArticleTotal(classname: string = null): Observable<Response<any>> {
+    const reqUrl = classname ? this.baseUrl + 'total?classname=' + classname : this.baseUrl + 'total';
     return this.http.get<Response<any>>(reqUrl);
   }
 
-  getArticleById(article_id: string): Observable<Response<Article>> {
-    return this.http.get<Response<Article>>(this.base_url + article_id);
+  getArticleById(articleId: string): Observable<Response<Article>> {
+    return this.http.get<Response<Article>>(this.baseUrl + articleId);
   }
 
   postArticle(article: Article): Observable<Response<any>> {
-    return this.http.post<Response<any>>(this.base_url, article, { headers: this.makeHeader() });
+    return this.http.post<Response<any>>(this.baseUrl, article, { headers: this.makeHeader() });
   }
 
-  deleteArticle(article_id: string): Observable<Response<any>> {
-    return this.http.delete<Response<any>>(this.base_url + article_id);
+  deleteArticle(articleId: string): Observable<Response<any>> {
+    return this.http.delete<Response<any>>(this.baseUrl + articleId);
   }
 
-  likeArticle(article_id: string): Observable<Response<any>> {
-    return this.http.post<Response<Article>>(this.base_url + article_id + '/like', {});
+  likeArticle(articleId: string): Observable<Response<any>> {
+    return this.http.post<Response<Article>>(this.baseUrl + articleId + '/like', {});
   }
 
-  viewArticle(article_id: string): Observable<Response<any>> {
-    return this.http.post<Response<Article>>(this.base_url + article_id + '/view', {});
+  viewArticle(articleId: string): Observable<Response<any>> {
+    return this.http.post<Response<Article>>(this.baseUrl + articleId + '/view', {});
   }
 
   searchArticle(keywords: string): Observable<Response<Article[]>> {
-    return this.http.get<Response<Article[]>>(this.base_url + 'search', {
+    return this.http.get<Response<Article[]>>(this.baseUrl + 'search', {
       params: {
-        'keyword': keywords
+        keyword: keywords
       }
-    })
+    });
   }
 
-  getCommentsByArticleId(article_id: string): Observable<Response<Comment[]>> {
-    return this.http.get<Response<Comment[]>>(this.base_url + article_id + '/comment');
+  getCommentsByArticleId(articleId: string): Observable<Response<Comment[]>> {
+    return this.http.get<Response<Comment[]>>(this.baseUrl + articleId + '/comment');
   }
 
-  postComment(article_id: string, text: string): Observable<Response<any>> {
-    return this.http.post<Response<any>>(this.base_url + article_id + '/comment', { 
-      'text': text,
-      'user_id': this.authService.getToken().id
+  postComment(articleId: string, text: string): Observable<Response<any>> {
+    return this.http.post<Response<any>>(this.baseUrl + articleId + '/comment', {
+      text,
+      user_id: this.authService.getToken().id
     }, { headers: this.makeHeader() });
   }
 
   getClassnames(): Observable<Response<string[]>> {
-    return this.http.get<Response<string[]>>(this.base_url + 'classname');
+    return this.http.get<Response<string[]>>(this.baseUrl + 'classname');
   }
 }
