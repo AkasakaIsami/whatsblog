@@ -81,9 +81,50 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control>
-          <nz-alert *ngIf="errorMsg" [nzMessage]="errorMsg" nzShowIcon nzType="error"></nz-alert>
+          <nz-alert *ngIf="changePassErrMsg" [nzMessage]="changePassErrMsg" nzShowIcon nzType="error"></nz-alert>
           <button [disabled]="!changePassFormGroup.valid || changingPassword" [nzType]="'primary'" class="login-form-button" nz-button>
             <i *ngIf="changingPassword" [spin]="true" nz-icon nzType="reload"></i>修改密码
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-tab>
+
+  <!-- Tab for change username -->
+  <nz-tab>
+    <a nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'name' }" queryParamsHandling="merge">修改用户名</a>
+
+    <form (ngSubmit)="submitChangeNameForm()" [formGroup]="changeNameFormGroup" class="login-form" nz-form>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" nzRequired>新用户名</nz-form-label>
+        <nz-form-control [nzSpan]="6" nzHasFeedback>
+          <nz-input-group>
+            <input formControlName="username" nz-input [value]="this.authService.getUsername()" type="text"/>
+          </nz-input-group>
+          <nz-form-explain
+            *ngIf="changeNameFormGroup.get('username')?.dirty"
+          >
+            <ng-container *ngIf="changeNameFormGroup.get('username')?.hasError('required')">
+              请输入用户名
+            </ng-container>
+            <ng-container *ngIf="changeNameFormGroup.get('username')?.hasError('short')">
+              用户名长度至少为4
+            </ng-container>
+            <ng-container *ngIf="changeNameFormGroup.get('username')?.hasError('long')">
+              用户名长度不能超过20
+            </ng-container>
+            <ng-container *ngIf="changeNameFormGroup.get('username')?.hasError('invalid')">
+              用户名仅由字母数字组成，且以字母开头
+            </ng-container>
+          </nz-form-explain
+          >
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-alert *ngIf="changeNameErrMsg" [nzMessage]="changeNameErrMsg" nzShowIcon nzType="error"></nz-alert>
+          <button [disabled]="!changeNameFormGroup.valid || changingUsername" [nzType]="'primary'" nz-button>
+            <i *ngIf="changingUsername" [spin]="true" nz-icon nzType="reload"></i>修改用户名
           </button>
         </nz-form-control>
       </nz-form-item>

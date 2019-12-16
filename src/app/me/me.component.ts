@@ -15,9 +15,13 @@ export class MeComponent implements OnInit {
   group_id: string;
   tokenExpireDate: Date;
 
-  errorMsg: string;
+  changePassErrMsg: string;
   changePassFormGroup: FormGroup;
   changingPassword = false;
+
+  changeNameErrMsg: string;
+  changeNameFormGroup: FormGroup;
+  changingUsername = false;
 
   constructor(private authService: AuthService, private location: Location, private fb: FormBuilder) {
     const token = this.authService.getToken();
@@ -36,6 +40,10 @@ export class MeComponent implements OnInit {
       password: ['', [this.passwordValidator]],
       confirm: ['', [this.confirmValidator]]
     });
+
+    this.changeNameFormGroup = this.fb.group({
+      username: ['', [this.usernameValidator]]
+    })
   }
 
   ngOnInit() {
@@ -67,9 +75,47 @@ export class MeComponent implements OnInit {
     //   );
   }
 
+  submitChangeNameForm(): void {
+    // tslint:disable-next-line:forin
+    for (const i in this.changeNameFormGroup.controls) {
+      this.changeNameFormGroup.controls[i].markAsDirty();
+      this.changeNameFormGroup.controls[i].updateValueAndValidity();
+    }
+
+    this.changingUsername = true;
+
+    const usename = this.changeNameFormGroup.controls.username.value;
+
+    this.changingUsername = false;
+    console.error('Unimplemented');
+    // this.authService.changeUsername(username)
+    //   .subscribe(
+    //     (tokenRes) => {
+    //       console.log('get normal response');
+    //     },
+    //     (errorMsg) => {
+    //       this.errorMsg = errorMsg;
+    //       this.changingUsername = false;
+    //     }
+    //   );
+  }
+
   validateConfirmPassword(): void {
     setTimeout(() => this.changePassFormGroup.controls.confirm.updateValueAndValidity());
   }
+
+  usernameValidator = (control: FormControl): { [s: string]: boolean } => {
+    if (!control.value) {
+      return {required: true};
+    } else if (control.value.toString().length < 4) {
+      return {short: true};
+    } else if (control.value.toString().length > 20) {
+      return {long: true};
+    } else if (!/^[a-zA-Z]+[0-9]*$/.test(control.value.toString())) {
+      return {invalid: true};
+    }
+    return {};
+  };
 
   confirmValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {
