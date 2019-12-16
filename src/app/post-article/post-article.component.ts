@@ -22,6 +22,6 @@ export class PostArticleComponent implements OnInit {
       res => {
         this.router.navigateByUrl('/article/' + res.data.id);
       }
-    )
+    );
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Article } from '../model/article';
 import { ArticleService } from '../article.service';
-import { Response } from '../model/response'
+import { Response } from '../model/response';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AuthService } from '../auth.service';
 
@@ -13,7 +13,7 @@ import { AuthService } from '../auth.service';
 export class ArticleListComponent implements OnInit {
 
   articles: Article[] = [];
-  currentClassname = ''
+  currentClassname = '';
   classnames: string[] = [];
   pageSize = 5;
   articleTotal = 5;
@@ -32,23 +32,23 @@ export class ArticleListComponent implements OnInit {
         }
         this.loadData(1);
       }
-    )
+    );
   }
 
 
-  loadData(page: number):void {
+  loadData(page: number): void {
     console.log(`loadData(${page}) is invoked`);
     this.articleService.getArticleTotal(this.currentClassname).subscribe(
       res => {
         this.articleTotal = res.data.total;
         this.articleService.getAllArticles(this.currentClassname).subscribe(
-          (res: Response<Article[]>) => {
-            this.articles = res.data.slice(page * this.pageSize - this.pageSize, page * this.pageSize);
+          (articleRes: Response<Article[]>) => {
+            this.articles = articleRes.data.slice(page * this.pageSize - this.pageSize, page * this.pageSize);
             console.log(this.articles);
           }
         );
       }
-    )
+    );
   }
 
 }

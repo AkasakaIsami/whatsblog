@@ -16,7 +16,7 @@ export class MeComponent implements OnInit {
 
   constructor(private authService: AuthService, private location: Location) {
     const token = this.authService.getToken();
-    const expireTime = parseInt(localStorage.getItem('token_expire_time'))
+    const expireTime = parseInt(localStorage.getItem('token_expire_time'), 10);
     const expireDate = new Date();
     expireDate.setTime(expireTime);
 

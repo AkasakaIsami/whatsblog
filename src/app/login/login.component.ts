@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.logging = true;
 
     const username = this.validateForm.controls.username.value;
-    const password = this.validateForm.controls.password.value
+    const password = this.validateForm.controls.password.value;
     this.authService.login(username, password)
       .subscribe(
         (tokenRes) => {

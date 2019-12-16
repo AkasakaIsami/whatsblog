@@ -23,7 +23,6 @@ export class RegisterComponent {
   }
 
   submitForm(): void {
-    // tslint:disable-next-line:forin
     this.registering = true;
 
     for (const i in this.validateForm.controls) {

@@ -30,7 +30,7 @@ export class ArticleEditorComponent implements OnInit {
 
   handleInputConfirm(): void {
     if (this.article.labels == null) {
-      this.article.labels = []
+      this.article.labels = [];
     }
     if (this.inputValue && this.article.labels.indexOf(this.inputValue) === -1) {
       this.article.labels = [...this.article.labels, this.inputValue];
