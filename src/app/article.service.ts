@@ -11,23 +11,26 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class ArticleService {
+  private maxArticleToGet = 1000;
   private baseUrl = config.host + 'api/article/';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  makeHeader(): any {
+  private makeHeader(): any {
     const token = this.authService.getToken();
     return token ? {Authorization: token.token } : {};
   }
 
-  getAllArticles(classname: string = null): Observable<Response<Article[]>> {
-    const reqUrl = classname ? this.baseUrl + '?classname=' + classname : this.baseUrl;
-    return this.http.get<Response<Article[]>>(reqUrl);
+  getAllArticles(classname: string = null,
+                 index: number = 0, size: number = this.maxArticleToGet): Observable<Response<Article[]>> {
+    return this.http.get<Response<Article[]>>(this.baseUrl, {
+      params: { classname, index: index.toString(), size: size.toString() }
+    });
   }
 
   getArticleTotal(classname: string = null): Observable<Response<any>> {
-    const reqUrl = classname ? this.baseUrl + 'total?classname=' + classname : this.baseUrl + 'total';
-    return this.http.get<Response<any>>(reqUrl);
+    const reqUrl = this.baseUrl + 'total';
+    return this.http.get<Response<any>>(reqUrl, {params: {classname}});
   }
 
   getArticleById(articleId: string): Observable<Response<Article>> {

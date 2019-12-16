@@ -41,10 +41,10 @@ export class ArticleListComponent implements OnInit {
     this.articleService.getArticleTotal(this.currentClassname).subscribe(
       res => {
         this.articleTotal = res.data.total;
-        this.articleService.getAllArticles(this.currentClassname).subscribe(
+        const index = (page - 1) * this.pageSize;
+        this.articleService.getAllArticles(this.currentClassname, index, this.pageSize).subscribe(
           (articleRes: Response<Article[]>) => {
-            this.articles = articleRes.data.slice(page * this.pageSize - this.pageSize, page * this.pageSize);
-            console.log(this.articles);
+            this.articles = articleRes.data;
           }
         );
       }
