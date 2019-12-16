@@ -32,7 +32,7 @@ export class AuthService {
 
   getToken(): Token {
     const now = new Date().getTime();
-    const expireTime = parseInt(localStorage.getItem('token_expire_time'));
+    const expireTime = parseInt(localStorage.getItem('token_expire_time'), 10);
     const token = JSON.parse(localStorage.getItem('token'));
     return now <= expireTime ? token : null;
   }
@@ -40,16 +40,14 @@ export class AuthService {
   login(username: string, password: string): Observable<Response<Token>> {
     password = Md5.hashStr(password).toString(); // hash the password
     return this.http.post<Response<Token>>(this.loginApiUrl, {
-      'username': username,
-      'password': password
-    })
+      username, password
+    });
   }
 
   register(username: string, password: string): Observable<Response<Token>> {
     password = Md5.hashStr(password).toString(); // hash the password
     return this.http.post<Response<Token>>(this.registerApiUrl, {
-      'username': username,
-      'password': password
-    })
+      username, password
+    });
   }
 }
