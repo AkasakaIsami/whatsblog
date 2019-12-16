@@ -11,7 +11,7 @@
   </ng-template>
   <a *ngIf="authService.getToken()?.group_id == '0'" routerLink="/post">发布新文章</a>
   <a *ngIf="!authService.getToken()" routerLink="/login" class="login-btn">登录</a>
-  <a *ngIf="authService.getToken()" routerLink="/me" class="login-btn">{{ authService.getUsername() }}</a>
+  <a *ngIf="authService.getToken()" routerLink="/me" [queryParams]="{tab: 'info'}" class="login-btn">{{ authService.getUsername() }}</a>
 </div>
 
 <div class="content" role="main">
