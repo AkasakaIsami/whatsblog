@@ -1,5 +1,6 @@
 <button nz-button (click)="location.back()"><i nz-icon nzType="left"></i>返回</button>
 <nz-tabset nzLinkRouter>
+  <!-- Tab for showing user information -->
   <nz-tab>
     <a nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'info' }" queryParamsHandling="merge">个人信息</a>
     <nz-descriptions nzTitle="个人信息" nzBordered>
@@ -11,8 +12,81 @@
       <nz-descriptions-item nzTitle="令牌过期时间">{{ tokenExpireDate.toLocaleString() }}</nz-descriptions-item>
     </nz-descriptions>
   </nz-tab>
+
+  <!-- Tab for change password -->
   <nz-tab>
     <a nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'pass' }" queryParamsHandling="merge">修改密码</a>
-    （施工中）
+    <form (ngSubmit)="submitChangePassForm()" [formGroup]="changePassFormGroup" class="login-form" nz-form>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" nzRequired>旧密码</nz-form-label>
+        <div>
+          <nz-form-control [nzSpan]="6" nzHasFeedback>
+            <input formControlName="oldPassword" nz-input
+                   type="password"/>
+            <nz-form-explain
+              *ngIf="changePassFormGroup.get('oldPassword')?.dirty"
+            >
+              <ng-container *ngIf="changePassFormGroup.get('oldPassword')?.hasError('required')">
+                请输入新密码
+              </ng-container>
+              <ng-container *ngIf="changePassFormGroup.get('oldPassword')?.hasError('wrong')">
+                密码错误
+              </ng-container>
+              <ng-container *ngIf="changePassFormGroup.get('oldPassword')?.hasError('netError')">
+                网络异常，无法验证，请尝试修复网络或重新登录
+              </ng-container>
+            </nz-form-explain
+            >
+          </nz-form-control>
+        </div>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" nzRequired>新密码</nz-form-label>
+        <div>
+          <nz-form-control [nzSpan]="6" nzHasFeedback>
+            <input (ngModelChange)="validateConfirmPassword()" formControlName="password" nz-input type="password"/>
+            <nz-form-explain
+              *ngIf="changePassFormGroup.get('password')?.dirty"
+            >
+              <ng-container *ngIf="changePassFormGroup.get('password')?.hasError('required')">
+                请输入新密码
+              </ng-container>
+              <ng-container *ngIf="changePassFormGroup.get('password')?.hasError('short')">
+                密码长度至少为6
+              </ng-container>
+              <ng-container *ngIf="changePassFormGroup.get('password')?.hasError('long')">
+                密码长度不能超过20
+              </ng-container>
+              <ng-container *ngIf="changePassFormGroup.get('password')?.hasError('onlyNumber')">
+                密码不能仅包含数字
+              </ng-container>
+            </nz-form-explain
+            >
+          </nz-form-control>
+        </div>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" nzRequired>重复新密码</nz-form-label>
+        <nz-form-control [nzSpan]="6" nzHasFeedback>
+          <input formControlName="confirm" nz-input type="password"/>
+          <nz-form-explain *ngIf="changePassFormGroup.get('confirm')?.dirty && changePassFormGroup.get('confirm')?.errors">
+            <ng-container *ngIf="changePassFormGroup.get('confirm')?.hasError('required')">
+              请重复输入新密码
+            </ng-container>
+            <ng-container *ngIf="changePassFormGroup.get('confirm')?.hasError('confirm')">
+              两次输入密码不一致
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-alert *ngIf="errorMsg" [nzMessage]="errorMsg" nzShowIcon nzType="error"></nz-alert>
+          <button [disabled]="!changePassFormGroup.valid || changingPassword" [nzType]="'primary'" class="login-form-button" nz-button>
+            <i *ngIf="changingPassword" [spin]="true" nz-icon nzType="reload"></i>修改密码
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
   </nz-tab>
 </nz-tabset>
